@@ -12,6 +12,7 @@ public class Vertex {
     public Vector3f normal;
     public float u, v;
     public int color;
+    public int light;
 
     public Vertex() {
 

@@ -4,6 +4,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.client.renderer.RenderType;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.google.common.collect.ImmutableMap;
+import net.minecraft.client.Minecraft;
 import com.mojang.blaze3d.systems.RenderSystem;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -69,7 +70,7 @@ public class MaterialProp {
             RenderSystem.disableBlend();
         }
         RenderSystem.enableDepthTest(); // DepthTestState
-        RenderSystem.depthFunc(GL33.GL_LEQUAL);
+        RenderSystem.depthFunc(GL_LEQUAL);
         RenderSystem.enableCull();
         Minecraft.getInstance().gameRenderer.lightTexture().turnOnLightLayer(); // LightmapState
         Minecraft.getInstance().gameRenderer.overlayTexture().setupOverlayColor(); // OverlayState

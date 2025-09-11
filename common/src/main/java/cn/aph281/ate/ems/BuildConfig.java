@@ -6,5 +6,5 @@ public interface BuildConfig {
 
     String MOD_VERSION = "0.0.1+1.18.2";
 
-    Instant BUILD_TIME = Instant.ofEpochSecond(1757598758);
+    Instant BUILD_TIME = Instant.ofEpochSecond(1757599244);
 }

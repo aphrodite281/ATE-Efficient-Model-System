@@ -1,6 +1,7 @@
 package cn.aph281.ate.ems.attr;
 
 import static org.lwjgl.opengl.GL33.*;
+import cn.aph281.ate.ems.shader.ContextCapability;
 
 public enum AttrType { 
     POSITION(0, GL_FLOAT, 3, 1, false, false),

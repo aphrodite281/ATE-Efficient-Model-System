@@ -70,13 +70,12 @@ public class BatchManager {
                 VertArray mesh = meshEntry.getKey();
                 ByteBuf instanceBuf = meshEntry.getValue();
                 if (instanceBuf.readableBytes() == 0) continue;
-                int instanceCount = instanceBuf.readableBytes() / mesh.mapping.instanceSize;
+                int instanceCount = instanceBuf.readableBytes() / mesh.mapping.strideInstance;
                 mesh.instanceBuf.size = instanceCount;
                 glBindVertexArray(mesh.id);
                 mesh.instanceBuf.upload(instanceBuf.nioBuffer(), VertBuf.USAGE_DYNAMIC_DRAW);
                 drawContext.recordDrawCall(mesh, instanceCount);
-                glDrawElementsInstanced(GL_TRIANGLES, indexBuf.vertexCount, indexBuf.indexType, 0L, instanceBuf.size);
-                glBindVertexArray(0);
+                mesh.draw();
                 instanceBuf.clear();
             }
         }
@@ -101,12 +100,12 @@ public class BatchManager {
             if (o instanceof BatchTuple that) {
                 return texture.equals(that.texture) && renderStage.equals(that.renderStage) && shaderProp.equals(that.shaderProp);
             }
-            return materialProp.equals(that.materialProp) && shaderProp.equals(that.shaderProp);
+            return false;
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(materialProp, shaderProp);
+            return Objects.hash(texture, renderStage, shaderProp);
         }
     }
 }

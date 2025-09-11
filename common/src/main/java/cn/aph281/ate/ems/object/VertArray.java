@@ -1,7 +1,8 @@
 package cn.aph281.ate.ems.object;
 
+import cn.aph281.ate.ems.util.GlStateTracker;
 import com.mojang.blaze3d.systems.RenderSystem;
-import static org.lwjgl.opengl.*;
+import static org.lwjgl.opengl.GL33.*;
 import cn.aph281.ate.ems.prop.*;
 import cn.aph281.ate.ems.attr.*;
 import java.io.Closeable;
