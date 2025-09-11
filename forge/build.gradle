@@ -1,0 +1,95 @@
+plugins {
+	id "com.github.johnrengelman.shadow"
+}
+
+loom {
+	accessWidenerPath = project(":common").loom.accessWidenerPath
+
+	forge {
+		mixinConfig "mtrsteamloco.mixins.json"
+
+		convertAccessWideners = true
+		extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
+	}
+}
+
+architectury {
+	platformSetupLoomIde()
+	forge()
+}
+
+configurations {
+	common
+	shadowCommon
+	compileClasspath.extendsFrom common
+	runtimeClasspath.extendsFrom common
+	developmentForge.extendsFrom common
+}
+
+dependencies {
+	forge "net.minecraftforge:forge:${rootProject.forge_version}"
+	modApi "${rootProject.architectury_id}:architectury-forge:${rootProject.architectury_version}"
+
+	common(project(path: ":common", configuration: "namedElements")) { transitive false }
+	shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
+
+	// forgeRuntimeLibrary project(":rhino")
+
+	modApi("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_version}") { transitive false }
+	modApi("me.shedaniel.cloth:basic-math:0.6.1") { transitive false }
+}
+
+processResources {
+	inputs.property "version", project.version
+
+	filesMatching("META-INF/mods.toml") {
+		expand (
+			"version": project.version,
+			"minecraft_version_range": rootProject.supports_minecraft_version_range,
+			"mtr_min_version": rootProject.mtr_min_version
+		)
+	}
+}
+
+shadowJar {
+	mergeServiceFiles()
+
+	exclude "fabric.mod.json"
+	exclude "*.bmp"
+	exclude '**/*.kotlin_metadata'
+    exclude '**/*.kotlin_module'
+    exclude '**/*.kotlin_builtins'
+
+	configurations = [project.configurations.shadowCommon]
+	archiveClassifier = "dev-shadow"
+}
+
+static boolean matchInnerClass(String path, String... names) {
+	names.any { name -> path.startsWith(name) }
+}
+
+remapJar {
+	input.set shadowJar.archiveFile
+	dependsOn shadowJar
+	archiveClassifier = null
+}
+
+components.java {
+	withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
+		skip()
+	}
+}
+
+task moveForgeBuilds() {
+	doLast {
+		delete fileTree("../build").matching {
+			include "**/MTR-ANTE-forge*"
+		}
+		copy {
+			from "build/libs"
+			into "../build"
+			exclude "*dev-shadow.jar"
+			rename "(.+)", "MTR-ANTE-\$1"
+		}
+	}
+}

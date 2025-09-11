@@ -1,0 +1,9 @@
+.jar
+.class
+.bin
+.log
+
+.gradle/
+.vscode/
+bin/
+build/
