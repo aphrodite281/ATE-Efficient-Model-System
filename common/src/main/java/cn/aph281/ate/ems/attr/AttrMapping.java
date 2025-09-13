@@ -18,7 +18,7 @@ import java.nio.*;
 
 public class AttrMapping {
 
-    public static final AttrMapping DEFAULT = new AttrMapping(ImmutableMap.of(
+    public static final AttrMapping DEFAULT = new AttrMapping(ImmutableMap.<AttrType, AttrSrc>of(
         AttrType.POSITION, AttrSrc.VERTEX_BUF,
         AttrType.COLOR, AttrSrc.VERTEX_BUF_OR_GLOBAL,
         AttrType.UV_TEXTURE, AttrSrc.VERTEX_BUF,
