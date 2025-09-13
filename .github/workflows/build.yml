@@ -189,7 +189,7 @@ jobs:
           retry-attempts: 2
           retry-delay: 10000
           fail-mode: fail
-          dependencies: []
+          # dependencies: []
           changelog-file: extracted_changelog.md
   deploy-docs:
     runs-on: ubuntu-latest
