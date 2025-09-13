@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <option name="defaultObfuscationEnv" value="named:intermediary" />
+        <option name="inMapFileNamedIntermediary" value="C:\Users\liyon\.gradle\caches\fabric-loom\1.18.2\loom.mappings.1_18_2.layered+hash.1757945524-v2\mappings-srg.tiny" />
+        <option name="MC_VERSION" value="11802" />
+        <option name="outMapFileNamedIntermediary" value="F:\dev_mc\ATE-Efficient-Model-System\common\build\loom-cache\mixin-map-loom.mappings.1_18_2.layered+hash.1757945524-v2.main.tiny" />
+        <option name="outRefMapFile" value="F:\dev_mc\ATE-Efficient-Model-System\common\build\classes\java\main\mixins.ate_ems.refmap.json" />
+        <option name="quiet" value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/systems.manifold/manifold-preprocessor/2025.1.26/7ec69f6d63cb9049424594ee089b1d1933200f12/manifold-preprocessor-2025.1.26.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/systems.manifold/manifold/2025.1.26/b7174e8ff4d4c5b39b2bed817e47ba9cf2372551/manifold-2025.1.26.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/systems.manifold/manifold-rt/2025.1.26/d57b7c7d4582913bb2d6781a53e6f16bded77b9b/manifold-rt-2025.1.26.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/systems.manifold/manifold-util/2025.1.26/12ef4c31eb68695295bbbd693b1e644294ce8460/manifold-util-2025.1.26.jar" />
+        </processorPath>
+        <module name="ATE-EMS.common.main" />
+      </profile>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <option name="defaultObfuscationEnv" value="named:intermediary" />
+        <option name="inMapFileNamedIntermediary" value="C:\Users\liyon\.gradle\caches\fabric-loom\1.18.2\loom.mappings.1_18_2.layered+hash.1757945524-v2\mappings.tiny" />
+        <option name="MC_VERSION" value="11802" />
+        <option name="outMapFileNamedIntermediary" value="F:\dev_mc\ATE-Efficient-Model-System\fabric\build\loom-cache\mixin-map-loom.mappings.1_18_2.layered+hash.1757945524-v2.main.tiny" />
+        <option name="outRefMapFile" value="F:\dev_mc\ATE-Efficient-Model-System\fabric\build\classes\java\main\mixins.ate_ems.refmap.json" />
+        <option name="quiet" value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/systems.manifold/manifold-preprocessor/2025.1.26/7ec69f6d63cb9049424594ee089b1d1933200f12/manifold-preprocessor-2025.1.26.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/systems.manifold/manifold/2025.1.26/b7174e8ff4d4c5b39b2bed817e47ba9cf2372551/manifold-2025.1.26.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/systems.manifold/manifold-rt/2025.1.26/d57b7c7d4582913bb2d6781a53e6f16bded77b9b/manifold-rt-2025.1.26.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/systems.manifold/manifold-util/2025.1.26/12ef4c31eb68695295bbbd693b1e644294ce8460/manifold-util-2025.1.26.jar" />
+        </processorPath>
+        <module name="ATE-EMS.fabric.main" />
+      </profile>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <option name="defaultObfuscationEnv" value="named:intermediary" />
+        <option name="inMapFileNamedIntermediary" value="C:\Users\liyon\.gradle\caches\fabric-loom\1.18.2\loom.mappings.1_18_2.layered+hash.1757945524-v2-forge-1.18.2-40.2.0\mappings-mixin-srg.tiny" />
+        <option name="MC_VERSION" value="11802" />
+        <option name="outMapFileNamedIntermediary" value="F:\dev_mc\ATE-Efficient-Model-System\forge\build\loom-cache\mixin-map-loom.mappings.1_18_2.layered+hash.1757945524-v2-forge-1.18.2-40.2.0.main.tiny" />
+        <option name="outRefMapFile" value="F:\dev_mc\ATE-Efficient-Model-System\forge\build\classes\java\main\forge-forge-refmap.json" />
+        <option name="quiet" value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/systems.manifold/manifold-preprocessor/2025.1.26/7ec69f6d63cb9049424594ee089b1d1933200f12/manifold-preprocessor-2025.1.26.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/systems.manifold/manifold/2025.1.26/b7174e8ff4d4c5b39b2bed817e47ba9cf2372551/manifold-2025.1.26.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/systems.manifold/manifold-rt/2025.1.26/d57b7c7d4582913bb2d6781a53e6f16bded77b9b/manifold-rt-2025.1.26.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/systems.manifold/manifold-util/2025.1.26/12ef4c31eb68695295bbbd693b1e644294ce8460/manifold-util-2025.1.26.jar" />
+        </processorPath>
+        <module name="ATE-EMS.forge.main" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="17" />
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_STRING" value="-Xplugin:Manifold  -processorpath C:\Users\liyon\.gradle\caches\modules-2\files-2.1\systems.manifold\manifold-preprocessor\2025.1.26\7ec69f6d63cb9049424594ee089b1d1933200f12\manifold-preprocessor-2025.1.26.jar;C:\Users\liyon\.gradle\caches\modules-2\files-2.1\systems.manifold\manifold\2025.1.26\b7174e8ff4d4c5b39b2bed817e47ba9cf2372551\manifold-2025.1.26.jar;C:\Users\liyon\.gradle\caches\modules-2\files-2.1\systems.manifold\manifold-rt\2025.1.26\d57b7c7d4582913bb2d6781a53e6f16bded77b9b\manifold-rt-2025.1.26.jar;C:\Users\liyon\.gradle\caches\modules-2\files-2.1\systems.manifold\manifold-util\2025.1.26\12ef4c31eb68695295bbbd693b1e644294ce8460\manifold-util-2025.1.26.jar" />
+  </component>
+</project>
