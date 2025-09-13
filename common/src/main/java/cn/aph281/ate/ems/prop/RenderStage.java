@@ -31,7 +31,6 @@ public enum RenderStage {
         else renderBatch = RenderBatch.FIRST;
     }
 
-    @Override
     public static RenderStage parse(String name) {
         return valueOf(name.toUpperCase());
     }
@@ -39,8 +38,9 @@ public enum RenderStage {
     public static final ResourceLocation WHITE_TEXTURE_LOCATION = new ResourceLocation("minecraft:textures/misc/white.png");
 
     public RenderType getRenderType(ResourceLocation textureToUse) {
-        textureToUse = textureToUse | WHITE_TEXTURE_LOCATION;
+        textureToUse = textureToUse == null ? WHITE_TEXTURE_LOCATION : textureToUse;
         switch (this) {
+            default:
             case EXTERIOR:
             case INTERIOR:
                 return BlazeRenderType.entityCutout(textureToUse);

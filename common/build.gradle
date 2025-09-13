@@ -20,3 +20,9 @@ loom {
 	}
 	accessWidenerPath = processAccessWidener(file("./src/main/resources/ate_ems.accesswidener"), file("./src/main/resources/ate_ems_filtered.accesswidener"))
 }
+
+shadowJar {
+	mergeServiceFiles()
+
+	exclude "ate_ems.accesswidener"
+}

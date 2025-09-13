@@ -11,10 +11,6 @@ plugins {
 	id "base"
 }
 
-ext {
-    graaljsVersion = "23.1.7"// 22.3.0 24.2.1 23.0.8
-}
-
 apply from: "build_dep_ver.gradle"
 
 rootProject.ext.assetExcludeFont = rootProject.properties.containsKey("assetExcludeFont")

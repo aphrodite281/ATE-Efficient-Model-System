@@ -24,5 +24,6 @@ public class ModelBuf {
         for (MeshBuf meshBuf : meshList.values()) {
             arrays.meshList.add(meshBuf.upload(manager));
         }
+        return arrays;
     }
 }

@@ -15,6 +15,8 @@ import cn.aph281.ate.ems.prop.RenderStage.*;
 
 import java.util.*;
 import java.nio.*;
+import java.io.IOException;
+import java.io.DataInputStream;
 
 public class RawMesh { 
     public MaterialProp materialProp;
@@ -26,9 +28,24 @@ public class RawMesh {
         this.faces = new ArrayList<>();
     }
 
+    public RawMesh(MaterialProp prop) {
+        this();
+        materialProp = prop;
+    }
+
     public RawMesh(List<Vertex> vertices, List<Face> faces) {
         this.vertices = new ArrayList<>(vertices);
         this.faces = new ArrayList<>(faces);
+    }
+
+    public RawMesh(DataInputStream dis) throws IOException {
+        this.materialProp = new MaterialProp(dis);
+        int numVertices = dis.readInt();
+        this.vertices = new ArrayList<>(numVertices);
+        for (int i = 0; i < numVertices; i++) this.vertices.add(new Vertex(dis));
+        int numFaces = dis.readInt();
+        this.faces = new ArrayList<>(numFaces);
+        for (int i = 0; i < numFaces; i++) this.faces.add(new Face(dis));
     }
 
     public RawMesh(RawMesh mesh) {
@@ -44,7 +61,6 @@ public class RawMesh {
     }
 
     private ByteBuffer writeIndexBuf() {
-        triangulate();
         ByteBuffer buf = ByteBuffer.allocate(faces.size() * 3 * 4);
         for (Face face : faces) {
             buf.putInt(face.vertices[0]);
@@ -55,11 +71,26 @@ public class RawMesh {
     }
 
     private ByteBuffer writeVertBuf(AttrMapping mapping) {
-        ByteBuffer buf = ByteBuffer.allocate(vertices.size() * mapping.strideVertex);
+        ByteBuf buf = Unpooled.buffer();
         for (Vertex vertex : vertices) mapping.writeVertex(buf, vertex);
+        return buf.nioBuffer();
     }
 
     public MeshBuf writeBuf(AttrMapping mapping) {
-        return new MeshBuf(materialProp, writeIndexBuf(), writeVertBuf(mapping), mapping);
+        triangulate();
+        return new MeshBuf(materialProp, writeIndexBuf(), faces.size(), writeVertBuf(mapping), mapping);
+    }
+
+    public void append(RawMesh nextMesh) {
+        if (nextMesh == this) throw new IllegalStateException("Mesh self-appending");
+        int vertOffset = vertices.size();
+        vertices.addAll(nextMesh.vertices);
+        for (Face face : nextMesh.faces) {
+            Face newFace = face.copy();
+            for (int i = 0; i < newFace.vertices.length; ++i) {
+                newFace.vertices[i] += vertOffset;
+            }
+            faces.add(newFace);
+        }
     }
 }

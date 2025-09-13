@@ -3,6 +3,9 @@ package cn.aph281.ate.ems.prop;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.client.renderer.RenderType;
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.google.gson.JsonNull;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.client.Minecraft;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -20,6 +23,9 @@ import cn.aph281.ate.ems.prop.RenderStage.*;
 
 import java.util.*;
 import java.nio.*;
+import java.io.IOException;
+import java.io.DataInputStream;
+import java.nio.charset.StandardCharsets;
 
 public class MaterialProp {
     public ResourceLocation texture;
@@ -54,27 +60,20 @@ public class MaterialProp {
         this.attrState = new AttrState(other.attrState);
     }
 
-    public void setupCompositeState() {
-#if MC_VERSION <= "11903"
-        RenderSystem.enableTexture();
-#endif
-        RenderSystem.setShaderTexture(0, texture);
-
-
-        // HACK: To make cutout transparency on beacon_beam work
-        if (renderStage.translucent || renderStage.cutoutHack) {
-            RenderSystem.enableBlend(); // TransparentState
-            RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
-                    GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-        } else {
-            RenderSystem.disableBlend();
-        }
-        RenderSystem.enableDepthTest(); // DepthTestState
-        RenderSystem.depthFunc(GL_LEQUAL);
-        RenderSystem.enableCull();
-        Minecraft.getInstance().gameRenderer.lightTexture().turnOnLightLayer(); // LightmapState
-        Minecraft.getInstance().gameRenderer.overlayTexture().setupOverlayColor(); // OverlayState
-        RenderSystem.depthMask(renderStage.writeDepthBuf); // WriteMaskState
+    public MaterialProp(DataInputStream dis) throws IOException {
+        int len = dis.readInt();
+        String content = new String(dis.readNBytes(len), StandardCharsets.UTF_8);
+        JsonObject mtlObj = (JsonObject)new JsonParser().parse(content);
+//        this.shaderName = mtlObj.get("shaderName").getAsString();
+        this.texture = mtlObj.get("texture").isJsonNull() ? null : new ResourceLocation(mtlObj.get("texture").getAsString());
+        this.attrState.color = mtlObj.get("color").isJsonNull() ? null : mtlObj.get("color").getAsInt();
+        this.attrState.lightmapUV = mtlObj.get("lightmapUV").isJsonNull() ? null : mtlObj.get("lightmapUV").getAsInt();
+/*        this.translucent = mtlObj.has("translucent") && mtlObj.get("translucent").getAsBoolean();
+        this.writeDepthBuf = mtlObj.has("writeDepthBuf") && mtlObj.get("writeDepthBuf").getAsBoolean();
+        boolean isBillboard = mtlObj.has("billboard") && mtlObj.get("billboard").getAsBoolean();
+        attrState.setMatixProcess(VertAttrState.BILLBOARD);
+        this.cutoutHack = mtlObj.has("cutoutHack") && mtlObj.get("cutoutHack").getAsBoolean();
+        checkShaderName();*/
     }
 
     public RenderType getRenderType() {

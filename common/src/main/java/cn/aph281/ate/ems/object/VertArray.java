@@ -33,11 +33,7 @@ public class VertArray implements Closeable {
         glBindVertexArray(oldVao);
     }
 
-    public int getFaceCount() {
-        return indexBuf.faceCount * (instanceBuf == null ? 1 : instanceBuf.size);
-    }
-
-        public void bind() {
+    public void bind() {
         GlStateTracker.assertProtected();
         glBindVertexArray(id);
     }

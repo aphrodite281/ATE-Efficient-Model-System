@@ -41,4 +41,15 @@ public class RawModel {
         }
         return modelBuf;
     }
+
+    public void append(RawMesh nextMesh) {
+        if (meshList.containsKey(nextMesh.materialProp)) {
+            RawMesh mesh = meshList.get(nextMesh.materialProp);
+            mesh.append(nextMesh);
+        } else {
+            RawMesh newMesh = new RawMesh(nextMesh.materialProp);
+            meshList.put(nextMesh.materialProp, newMesh);
+            newMesh.append(nextMesh);
+        }
+    }
 }

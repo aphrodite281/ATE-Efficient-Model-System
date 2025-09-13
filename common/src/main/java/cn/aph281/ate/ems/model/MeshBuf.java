@@ -21,21 +21,26 @@ public class MeshBuf {
     public ByteBuffer indexBuf;
     public ByteBuffer vertBuf;
     public AttrMapping mapping;
+    public int faceCount;
 
-    public MeshBuf(MaterialProp materialProp, ByteBuffer indexBuf, ByteBuffer vertBuf, AttrMapping mapping) {
+    public MeshBuf(MaterialProp materialProp, ByteBuffer indexBuf, int faceCount, ByteBuffer vertBuf, AttrMapping mapping) {
         this.materialProp = materialProp;
         this.indexBuf = indexBuf;
         this.vertBuf = vertBuf;
         this.mapping = mapping;
+        this.faceCount = faceCount;
     }
 
     public VertArray upload(ModelManager manager) {
         VertBuf vbo = new VertBuf();
         vbo.upload(vertBuf, VertBuf.USAGE_STATIC_DRAW);
-        IndexBuf ebo = new IndexBuf();
+        IndexBuf ebo = new IndexBuf(faceCount, GL_UNSIGNED_INT);
         ebo.upload(indexBuf, IndexBuf.USAGE_STATIC_DRAW);
         manager.vboCount += 3;
         manager.vaoCount += 1;
-        return new VertArray().create(materialProp, vbo, ebo, new InstanceBuf(0), mapping);
+        VertArray vao = new VertArray();
+
+        vao.create(materialProp, vbo, ebo, new InstanceBuf(0), mapping);
+        return vao;
     }
 }

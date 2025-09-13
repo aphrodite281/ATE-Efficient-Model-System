@@ -10,6 +10,7 @@ import cn.aph281.ate.math.*;
 import cn.aph281.ate.ems.shader.*;
 import cn.aph281.ate.ems.prop.RenderStage.*;
 import com.google.common.collect.ImmutableMap;
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.shaders.ProgramManager;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -20,6 +21,7 @@ import cn.aph281.ate.math.Matrix4f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceProvider;
 
@@ -62,21 +64,40 @@ public class ShaderManager {
         shaders.put(name, shader);
     }
 
-    public void setupShaderBatchState(MaterialProp materialProp, ShaderProp shaderProp) {
+    public void setupShaderBatchState(ResourceLocation texture, RenderStage renderStage, ShaderProp shaderProp) {
         final boolean useCustomShader = ShadersModHandler.canUseCustomShader();
         ShaderInstance shaderInstance;
 
         if (useCustomShader) {
-            shaderInstance = shaders.get(materialProp.renderStage.shaderName);
-            materialProp.setupCompositeState();
+            shaderInstance = shaders.get(renderStage.shaderName);
+        #if MC_VERSION <= "11903"
+            RenderSystem.enableTexture();
+        #endif
+            RenderSystem.setShaderTexture(0, texture);
+
+
+            // HACK: To make cutout transparency on beacon_beam work
+            if (renderStage.translucent || renderStage.cutoutHack) {
+                RenderSystem.enableBlend(); // TransparentState
+                RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
+                        GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+            } else {
+                RenderSystem.disableBlend();
+            }
+            RenderSystem.enableDepthTest(); // DepthTestState
+            RenderSystem.depthFunc(GL_LEQUAL);
+            RenderSystem.enableCull();
+            Minecraft.getInstance().gameRenderer.lightTexture().turnOnLightLayer(); // LightmapState
+            Minecraft.getInstance().gameRenderer.overlayTexture().setupOverlayColor(); // OverlayState
+            RenderSystem.depthMask(renderStage.writeDepthBuf); // WriteMaskState
         } else {
-            RenderType renderType = materialProp.getBlazeRenderType();
+            RenderType renderType = renderStage.getRenderType(texture);
             renderType.setupRenderState();
             shaderInstance = RenderSystem.getShader();
         }
 
         if (shaderInstance == null) {
-            throw new IllegalArgumentException("Cannot get shader: " + materialProp.renderStage.shaderName
+            throw new IllegalArgumentException("Cannot get shader: " + renderStage.shaderName
                     + (useCustomShader ? "_modelmat" : ""));
         }
 

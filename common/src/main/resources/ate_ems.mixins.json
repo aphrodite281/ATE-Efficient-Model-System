@@ -4,6 +4,9 @@
   "package": "cn.aph281.ate.ems.mixin",
   "compatibilityLevel": "JAVA_8",
   "client": [
+    "ResourceLoadStateTrackerMixin",
+    "GLFWMixin",
+    "PoseAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

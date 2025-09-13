@@ -18,7 +18,7 @@ import java.util.*;
 import java.nio.*;
 
 public class BatchManager { 
-    public final HashMap<MaterialProp, HashMap<VertArray, ByteBuf>> batches = new HashMap<>();
+    public final HashMap<BatchTuple, HashMap<VertArray, ByteBuf>> batches = new HashMap<>();
     public int count = 0;
 
     public void enqueue(VertArrays model, EnqueueProp enqueueProp, ShaderProp shaderProp, int lightmapUV, Matrix4f modelMatrix) {
@@ -29,7 +29,7 @@ public class BatchManager {
 
     public void enqueue(VertArray model, EnqueueProp enqueueProp, ShaderProp shaderProp, int lightmapUV, Matrix4f modelMatrix) {
         count++;
-        ResourceLocation texture = (enqueueProp.texture | model.materialProp.texture) | RenderStage.WHITE_TEXTURE_LOCATION;
+        ResourceLocation texture = or(or(enqueueProp.texture, model.materialProp.texture), RenderStage.WHITE_TEXTURE_LOCATION);
         AttrState attrState = new AttrState();
         attrState.setModelMatrix(modelMatrix);
         attrState.append(enqueueProp.attrState);
@@ -45,7 +45,7 @@ public class BatchManager {
         HashMap<VertArray, ByteBuf> batch1 = batches.get(tuple);
         if (batch1 == null) {
             batch1 = new HashMap<>();
-            batches.put(model.materialProp, batch1);
+            batches.put(tuple, batch1);
         }
         ByteBuf instanceBuf = batch1.get(model);
         if (instanceBuf == null) {
@@ -53,6 +53,11 @@ public class BatchManager {
             batch1.put(model, instanceBuf);
         }
         model.mapping.writeInstanceBuf(instanceBuf, attrState);
+    }
+
+    private static <T> T or(T t1, T t2) {
+        if (t1 == null) return t2;
+        return t1;
     }
 
     public void drawAll(ShaderManager shaderManager, DrawContext drawContext) {
@@ -74,7 +79,7 @@ public class BatchManager {
                 mesh.instanceBuf.size = instanceCount;
                 glBindVertexArray(mesh.id);
                 mesh.instanceBuf.upload(instanceBuf.nioBuffer(), VertBuf.USAGE_DYNAMIC_DRAW);
-                drawContext.recordDrawCall(mesh, instanceCount);
+                drawContext.recordDrawCall(mesh);
                 mesh.draw();
                 instanceBuf.clear();
             }

@@ -59,5 +59,6 @@ public class AttrState {
         if (obj instanceof AttrState other) {
             return lightmapUV == other.lightmapUV && modelMatrix.equals(other.modelMatrix) && color == other.color && overlayUV == other.overlayUV;
         }
+        return false;
     }
 }
