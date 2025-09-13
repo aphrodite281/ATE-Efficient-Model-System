@@ -38,7 +38,7 @@ jobs:
           grep "mod_version=" gradle.properties | cut -d'=' -f2
 
       - name: Build ${{ matrix.minecraft }}
-        run: ./gradlew clean setupLibrary build -PbuildVersion="${{ matrix.minecraft }}" --no-daemon
+        run: ./gradlew clean build -PbuildVersion="${{ matrix.minecraft }}" --no-daemon
 
       - name: Get Mod Version
         run: |
