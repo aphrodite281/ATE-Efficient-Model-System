@@ -18,15 +18,16 @@ import java.nio.*;
 
 public class AttrMapping {
 
-    public static final AttrMapping DEFAULT = new AttrMapping(ImmutableMap.<AttrType, AttrSrc>of(
-        AttrType.POSITION, AttrSrc.VERTEX_BUF,
-        AttrType.COLOR, AttrSrc.VERTEX_BUF_OR_GLOBAL,
-        AttrType.UV_TEXTURE, AttrSrc.VERTEX_BUF,
-        AttrType.UV_OVERLAY, AttrSrc.INSTANCE_BUF,
-        AttrType.UV_LIGHTMAP, AttrSrc.INSTANCE_BUF,
-        AttrType.NORMAL, AttrSrc.VERTEX_BUF,
-        AttrType.MATRIX_MODEL, AttrSrc.INSTANCE_BUF
-    ));
+    public static final AttrMapping DEFAULT = new AttrMapping(ImmutableMap.<AttrType, AttrSrc>builder()
+        .put(AttrType.POSITION, AttrSrc.VERTEX_BUF)
+        .put(AttrType.COLOR, AttrSrc.VERTEX_BUF_OR_GLOBAL)
+        .put(AttrType.UV_TEXTURE, AttrSrc.VERTEX_BUF)
+        .put(AttrType.UV_OVERLAY, AttrSrc.INSTANCE_BUF)
+        .put(AttrType.UV_LIGHTMAP, AttrSrc.INSTANCE_BUF)
+        .put(AttrType.NORMAL, AttrSrc.VERTEX_BUF)
+        .put(AttrType.MATRIX_MODEL, AttrSrc.INSTANCE_BUF)
+        .build()
+    );
 
     public ImmutableMap<AttrType, AttrSrc> sources;
     public ImmutableMap<AttrType, Integer> pointers;
